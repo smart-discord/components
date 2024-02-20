@@ -16,6 +16,10 @@ jobs:
         with:
           bun-version: 1.0.x
           scope: "@smart-discord"
+      - name: "Registry Auth"
+        run: |
+          npm config set @smart-discord:registry https://registry.npmjs.org
+          npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
       - name: "Install Dependencies"
         run: bun install --frozen-lockfile
       - name: "Build"
