@@ -1,0 +1,25 @@
+{
+  "name": "discordjs-components",
+  "version": "0.0.1",
+  "type": "module",
+  "module": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "bun run build:code && bun run build:declaration",
+    "build:code": "bun build --target=node ./src/index.ts --outfile=dist/index.js",
+    "build:declaration": "./node_modules/.bin/dts-bundle-generator -o dist/index.d.ts src/index.ts --project tsconfig.types.json --no-check",
+    "build:declaration-old": "tsc --project tsconfig.types.json"
+  },
+  "dependencies": {
+    "discord.js": "^14.14.1"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "dts-bundle-generator": "^9.3.1",
+    "prettier": "^3.2.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
