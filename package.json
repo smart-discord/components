@@ -1,5 +1,5 @@
 {
-  "name": "discordjs-components",
+  "name": "@smart-discord/components",
   "version": "0.0.1",
   "type": "module",
   "module": "src/index.ts",
@@ -8,8 +8,7 @@
   "scripts": {
     "build": "bun run build:code && bun run build:declaration",
     "build:code": "bun build --target=node ./src/index.ts --outfile=dist/index.js",
-    "build:declaration": "./node_modules/.bin/dts-bundle-generator -o dist/index.d.ts src/index.ts --project tsconfig.types.json --no-check",
-    "build:declaration-old": "tsc --project tsconfig.types.json"
+    "build:declaration": "dts-bundle-generator -o dist/index.d.ts src/index.ts --project tsconfig.types.json --no-check"
   },
   "dependencies": {
     "discord.js": "^14.14.1"
