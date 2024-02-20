@@ -1,0 +1,25 @@
+name: Publish to NPM
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+      - name: "Setup Bun"
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.x.x
+          registry-url: "https://registry.npmjs.org/"
+          scope: "@smart-discord"
+      - name: "Install Dependencies"
+        run: bun install --frozen-lockfile --production
+      - name: "Build"
+        run: bun run build
+      - name: "Publish"
+        run: npm publish
