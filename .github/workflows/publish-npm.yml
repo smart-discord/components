@@ -15,7 +15,6 @@ jobs:
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: 1.x.x
-          registry-url: "https://registry.npmjs.org/"
           scope: "@smart-discord"
       - name: "Install Dependencies"
         run: bun install --frozen-lockfile --production
