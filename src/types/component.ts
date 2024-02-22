@@ -1,4 +1,9 @@
-import type { Awaitable, ClientEvents, SlashCommandBuilder } from "discord.js";
+import type {
+  Awaitable,
+  ClientEvents,
+  ContextMenuCommandBuilder,
+  SlashCommandBuilder,
+} from "discord.js";
 import type {
   CallbackAction,
   CallbackAutocomplete,
@@ -27,7 +32,7 @@ export type ComponentAction =
     };
 
 export type ComponentContextMenu = {
-  key: string;
+  definition: ContextMenuCommandBuilder;
   handler: CallbackContextMenu;
 };
 

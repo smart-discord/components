@@ -18,6 +18,7 @@ import type {
   CallbackAction,
   CallbackAutocomplete,
   CallbackCommand,
+  CallbackContextMenu,
 } from "../types/callbacks";
 import type { Component } from "../types/component";
 
@@ -28,6 +29,7 @@ export class InteractionManager {
     string,
     { regex?: RegExp; handler: CallbackAction }
   >();
+  private contextMenuHandlers = new Collection<string, CallbackContextMenu>();
 
   // Components
 
@@ -37,6 +39,8 @@ export class InteractionManager {
     this.registerAutocompletes(component);
 
     this.registerActions(component);
+
+    this.registerContextMenus(component);
   }
 
   private registerCommands(component: Component) {
@@ -93,6 +97,26 @@ export class InteractionManager {
             handler: action.handler,
           });
         }
+      }
+    }
+  }
+
+  private registerContextMenus(component: Component) {
+    if (component.contextMenu) {
+      const contextMenu = component.contextMenu;
+
+      this.contextMenuHandlers.set(
+        contextMenu.definition.name,
+        contextMenu.handler
+      );
+    }
+
+    if (component.contextMenus) {
+      for (const contextMenu of component.contextMenus) {
+        this.contextMenuHandlers.set(
+          contextMenu.definition.name,
+          contextMenu.handler
+        );
       }
     }
   }
@@ -173,7 +197,14 @@ export class InteractionManager {
       | MessageContextMenuCommandInteraction
       | UserContextMenuCommandInteraction
   ) {
-    // TODO
-    // https://discordjs.guide/interactions/context-menus.html#registering-context-menu-commands
+    const contextMenuHandler = this.contextMenuHandlers.get(
+      interaction.commandName
+    );
+
+    if (!contextMenuHandler) {
+      return;
+    }
+
+    await contextMenuHandler(interaction);
   }
 }
