@@ -12,14 +12,17 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4
       - name: "Setup Bun"
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@0f37bd81694f91f7edc1c990461a7fc67ef7e3d8
         with:
-          bun-version: 1.x.x
-          registry-url: "https://registry.npmjs.org/"
+          bun-version: 1.0.x
           scope: "@smart-discord"
+      - name: "Registry Auth"
+        run: |
+          npm config set @smart-discord:registry https://registry.npmjs.org
+          npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
       - name: "Install Dependencies"
-        run: bun install --frozen-lockfile --production
+        run: bun install --frozen-lockfile
       - name: "Build"
         run: bun run build
       - name: "Publish"
-        run: npm publish
+        run: npm publish --access public
