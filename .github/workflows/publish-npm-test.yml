@@ -1,0 +1,26 @@
+name: Publish to NPM
+
+on: workflow_dispatch
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+      - name: "Setup Bun"
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+          scope: "@smart-discord"
+      - name: "Registry Auth"
+        run: |
+          echo "@smart-discord:registry=https://registry.npmjs.org" >> .npmrc
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
+      - name: "Install Dependencies"
+        run: bun install --frozen-lockfile
+      - name: "Build"
+        run: bun run build
+      - name: "Publish"
+        run: bun publish --access public --tag v0.1.1
