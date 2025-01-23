@@ -1,6 +1,6 @@
 {
   "name": "@smart-discord/components",
-  "version": "0.0.0",
+  "version": "0.2.0",
   "type": "module",
   "module": "src/index.ts",
   "main": "dist/index.js",
@@ -18,5 +18,9 @@
     "@types/bun": "latest",
     "dts-bundle-generator": "^9.5.1",
     "prettier": "^3.4.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smart-discord/components.git"
   }
 }
