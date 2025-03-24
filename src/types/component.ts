@@ -2,7 +2,7 @@ import type {
   Awaitable,
   ClientEvents,
   ContextMenuCommandBuilder,
-  SlashCommandBuilder,
+  SharedSlashCommand,
 } from "discord.js";
 import type {
   CallbackAction,
@@ -12,7 +12,7 @@ import type {
 } from "./callbacks";
 
 export type ComponentCommand = {
-  definition: SlashCommandBuilder;
+  definition: SharedSlashCommand;
   handler: CallbackCommand;
 };
 
