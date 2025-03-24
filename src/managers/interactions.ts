@@ -107,7 +107,7 @@ export class InteractionManager {
 
       this.contextMenuHandlers.set(
         contextMenu.definition.name,
-        contextMenu.handler
+        contextMenu.handler,
       );
     }
 
@@ -115,7 +115,7 @@ export class InteractionManager {
       for (const contextMenu of component.contextMenus) {
         this.contextMenuHandlers.set(
           contextMenu.definition.name,
-          contextMenu.handler
+          contextMenu.handler,
         );
       }
     }
@@ -144,7 +144,7 @@ export class InteractionManager {
         } else {
           throw "Interaction not implemented";
         }
-      }
+      },
     );
   }
 
@@ -161,7 +161,7 @@ export class InteractionManager {
   public async handleAutocomplete(interaction: AutocompleteInteraction) {
     const focusedOption = interaction.options.getFocused(true);
     const autocompleteHandler = this.autocompleteHandlers.get(
-      `${interaction.commandName}/${focusedOption.name}`
+      `${interaction.commandName}/${focusedOption.name}`,
     );
 
     if (!autocompleteHandler) {
@@ -175,13 +175,13 @@ export class InteractionManager {
     interaction:
       | AnySelectMenuInteraction
       | ButtonInteraction
-      | ModalSubmitInteraction
+      | ModalSubmitInteraction,
   ) {
     let actionHandler = this.actionHandlers.get(interaction.customId);
 
     if (!actionHandler) {
       actionHandler = this.actionHandlers.find(
-        (value) => value.regex && value.regex.test(interaction.customId)
+        (value) => value.regex && value.regex.test(interaction.customId),
       );
     }
 
@@ -195,10 +195,10 @@ export class InteractionManager {
   public async handleContextMenu(
     interaction:
       | MessageContextMenuCommandInteraction
-      | UserContextMenuCommandInteraction
+      | UserContextMenuCommandInteraction,
   ) {
     const contextMenuHandler = this.contextMenuHandlers.get(
-      interaction.commandName
+      interaction.commandName,
     );
 
     if (!contextMenuHandler) {

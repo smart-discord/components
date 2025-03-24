@@ -54,7 +54,7 @@ export default class ComponentManager {
   public async updateGuildCommands(
     applicationId: string,
     guildId: string,
-    token: string
+    token: string,
   ) {
     await this.commandManager.updateGuild(applicationId, guildId, token);
   }

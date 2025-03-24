@@ -10,22 +10,22 @@ import type {
 } from "discord.js";
 
 export type CallbackCommand = (
-  interaction: ChatInputCommandInteraction
+  interaction: ChatInputCommandInteraction,
 ) => Awaitable<void>;
 
 export type CallbackAutocomplete = (
-  interaction: AutocompleteInteraction
+  interaction: AutocompleteInteraction,
 ) => Awaitable<void>;
 
 export type CallbackAction = (
   interaction:
     | AnySelectMenuInteraction
     | ButtonInteraction
-    | ModalSubmitInteraction
+    | ModalSubmitInteraction,
 ) => Awaitable<void>;
 
 export type CallbackContextMenu = (
   interaction:
     | MessageContextMenuCommandInteraction
-    | UserContextMenuCommandInteraction
+    | UserContextMenuCommandInteraction,
 ) => Awaitable<void>;

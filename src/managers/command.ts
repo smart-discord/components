@@ -26,7 +26,7 @@ export class CommandManager {
   public async updateGuild(
     applicationId: string,
     guildId: string,
-    token: string
+    token: string,
   ) {
     const rest = new REST().setToken(token);
 

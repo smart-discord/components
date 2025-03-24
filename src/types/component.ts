@@ -22,14 +22,8 @@ export type ComponentAutocomplete = {
 };
 
 export type ComponentAction =
-  | {
-      key: string;
-      handler: CallbackAction;
-    }
-  | {
-      keyRegex: string;
-      handler: CallbackAction;
-    };
+  | { key: string; handler: CallbackAction }
+  | { keyRegex: string; handler: CallbackAction };
 
 export type ComponentContextMenu = {
   definition: ContextMenuCommandBuilder;

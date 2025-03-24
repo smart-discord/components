@@ -4,7 +4,6 @@ A discord.js framework for building Discord bots. Makes it easier to structure t
 
 Coded using Bun and TypeScript (but you can build your bot with other tools like npm and JavaScript).
 
-
 ## Documentation
 
 To learn how to use the framework check out the [documentation](https://github.com/smart-discord/components/wiki).
