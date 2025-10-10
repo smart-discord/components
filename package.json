@@ -13,13 +13,13 @@
     "format:fix": "prettier --write ."
   },
   "peerDependencies": {
-    "discord.js": "^14.18.0",
-    "typescript": "^5.8.2"
+    "discord.js": "^14.23.2",
+    "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@types/bun": "1.2.4",
+    "@types/bun": "^1.2.23",
     "dts-bundle-generator": "^9.5.1",
-    "prettier": "^3.5.3"
+    "prettier": "^3.6.2"
   },
   "repository": {
     "type": "git",
