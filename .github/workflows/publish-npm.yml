@@ -4,6 +4,10 @@ on:
   release:
     types: [published]
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   publish:
     name: Publish
@@ -19,7 +23,6 @@ jobs:
       - name: "Registry Auth"
         run: |
           npm config set @smart-discord:registry https://registry.npmjs.org
-          npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
       - name: "Install Dependencies"
         run: bun install --frozen-lockfile
       - name: "Build"
