@@ -23,8 +23,13 @@ jobs:
         run: bun install --frozen-lockfile
       - name: "Build"
         run: bun run build
+      - name: "Setup Npm"
+        uses: actions/setup-node@v6
+        with:
+          node-version: 'latest'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false
       - name: "Publish"
         run: |
-          npm config set @smart-discord:registry https://registry.npmjs.org
           npm version --git-tag-version false ${{ github.event.release.tag_name }}
-          npm publish --access public
+          npm publish --provenance --access public
