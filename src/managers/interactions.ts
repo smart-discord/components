@@ -19,6 +19,7 @@ import type {
   CallbackAutocomplete,
   CallbackCommand,
   CallbackContextMenu,
+  CallbackInteractionError,
 } from "../types/callbacks";
 import type { Component } from "../types/component";
 
@@ -30,6 +31,8 @@ export class InteractionManager {
     { regex?: RegExp; handler: CallbackAction }
   >();
   private contextMenuHandlers = new Collection<string, CallbackContextMenu>();
+
+  private errorHandler?: CallbackInteractionError;
 
   // Components
 
@@ -127,28 +130,36 @@ export class InteractionManager {
     client.on(
       Events.InteractionCreate,
       async (interaction: Interaction<CacheType>) => {
-        if (interaction.isChatInputCommand()) {
-          await this.handleCommand(interaction);
-        } else if (interaction.isAutocomplete()) {
-          await this.handleAutocomplete(interaction);
-        } else if (interaction.isAnySelectMenu()) {
-          await this.handleAction(interaction);
-        } else if (interaction.isButton()) {
-          await this.handleAction(interaction);
-        } else if (interaction.isModalSubmit()) {
-          await this.handleAction(interaction);
-        } else if (interaction.isMessageContextMenuCommand()) {
-          await this.handleContextMenu(interaction);
-        } else if (interaction.isUserContextMenuCommand()) {
-          await this.handleContextMenu(interaction);
-        } else {
-          throw "Interaction not implemented";
+        try {
+          if (interaction.isChatInputCommand()) {
+            await this.handleCommand(interaction);
+          } else if (interaction.isAutocomplete()) {
+            await this.handleAutocomplete(interaction);
+          } else if (interaction.isAnySelectMenu()) {
+            await this.handleAction(interaction);
+          } else if (interaction.isButton()) {
+            await this.handleAction(interaction);
+          } else if (interaction.isModalSubmit()) {
+            await this.handleAction(interaction);
+          } else if (interaction.isMessageContextMenuCommand()) {
+            await this.handleContextMenu(interaction);
+          } else if (interaction.isUserContextMenuCommand()) {
+            await this.handleContextMenu(interaction);
+          } else {
+            throw "Interaction not implemented";
+          }
+        } catch (error) {
+          try {
+            if (this.errorHandler) {
+              await this.errorHandler(error, interaction);
+            }
+          } catch {}
         }
       },
     );
   }
 
-  public async handleCommand(interaction: ChatInputCommandInteraction) {
+  private async handleCommand(interaction: ChatInputCommandInteraction) {
     const commandHandler = this.commandHandlers.get(interaction.commandName);
 
     if (!commandHandler) {
@@ -158,7 +169,7 @@ export class InteractionManager {
     await commandHandler(interaction);
   }
 
-  public async handleAutocomplete(interaction: AutocompleteInteraction) {
+  private async handleAutocomplete(interaction: AutocompleteInteraction) {
     const focusedOption = interaction.options.getFocused(true);
     const autocompleteHandler = this.autocompleteHandlers.get(
       `${interaction.commandName}/${focusedOption.name}`,
@@ -171,7 +182,7 @@ export class InteractionManager {
     await autocompleteHandler(interaction);
   }
 
-  public async handleAction(
+  private async handleAction(
     interaction:
       | AnySelectMenuInteraction
       | ButtonInteraction
@@ -192,7 +203,7 @@ export class InteractionManager {
     await actionHandler.handler(interaction);
   }
 
-  public async handleContextMenu(
+  private async handleContextMenu(
     interaction:
       | MessageContextMenuCommandInteraction
       | UserContextMenuCommandInteraction,
@@ -206,5 +217,11 @@ export class InteractionManager {
     }
 
     await contextMenuHandler(interaction);
+  }
+
+  // Error handler
+
+  public setErrorHandler(handler: CallbackInteractionError) {
+    this.errorHandler = handler;
   }
 }

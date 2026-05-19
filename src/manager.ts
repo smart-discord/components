@@ -1,4 +1,8 @@
 import { Client } from "discord.js";
+import type {
+  CallbackEventError,
+  CallbackInteractionError,
+} from "./types/callbacks";
 import type { Component, ComponentModule } from "./types/component";
 import { CommandManager } from "./managers/command";
 import { InteractionManager } from "./managers/interactions";
@@ -54,5 +58,13 @@ export default class ComponentManager {
     this.eventManager.registerHandlers(client);
 
     await this.commandManager.updateGlobal(applicationId, token);
+  }
+
+  public setInteractionErrorHandler(handler: CallbackInteractionError) {
+    this.interactionManager.setErrorHandler(handler);
+  }
+
+  public setEventErrorHandler(handler: CallbackEventError) {
+    this.eventManager.setErrorHandler(handler);
   }
 }
