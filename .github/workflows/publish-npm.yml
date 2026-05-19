@@ -19,15 +19,12 @@ jobs:
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-          scope: "@smart-discord"
-      - name: "Registry Auth"
-        run: |
-          npm config set @smart-discord:registry https://registry.npmjs.org
       - name: "Install Dependencies"
         run: bun install --frozen-lockfile
       - name: "Build"
         run: bun run build
       - name: "Publish"
         run: |
+          npm config set @smart-discord:registry https://registry.npmjs.org
           npm version --git-tag-version false ${{ github.event.release.tag_name }}
           npm publish --access public
